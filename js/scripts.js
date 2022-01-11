@@ -12,47 +12,54 @@
         }
         
         let myLibrary = [];
+        /**for storing custom attributes */
         const dataAttributes = {
             bookIndex: 'data-index',
         };
-
+        /** wrapper for book cards */
         const wrapper = document.querySelector('.wrapper');
+        /** button that adds new cards, toggles form show/hide */
         const btnNewBook = document.querySelector('button.add');
         const btnSubmit = document.getElementById('btn-submit');
         const form = document.querySelector('form');
+
+        /**sample data */
         myLibrary.push(new Book('Harry Potter 1', 'JK Rowling', 200, true));
         myLibrary.push(new Book('SomeTitle', 'Some Author', 300, false));
         myLibrary.push(new Book('The Hobbit', 'J.R.R. Tolkien', 295, false));
 
         updateDisplay();
-
-        btnNewBook.addEventListener('click', e => {
-            form.style.display = form.style.display === 'none' ? 'grid' : 'none';
-        });
-
-        btnSubmit.addEventListener('click', e => {
-            console.log('submitted');
-            const title = document.getElementById('title').value;
-            const author = document.getElementById('author').value;
-            const pages = document.getElementById('pages').value;
-            const read = document.getElementById('read').checked;
-            addBookToLibrary(title, author, pages, read);
-        });
-
         function updateDisplay(){
             clearDisplay();
+            showBooks();
+        }
+
+        function showBooks(){
             for (let i = 0; i < myLibrary.length; i++){
-                console.log(myLibrary[i].info())
                 displayBook(myLibrary[i], i);
             }
         }
-
         function clearDisplay(){
             while (wrapper.hasChildNodes()){
                 wrapper.removeChild(wrapper.firstChild);
             }
         }
 
+
+        btnNewBook.addEventListener('click', e => {
+            form.style.display = form.style.display === 'none' ? 'grid' : 'none';
+        });
+
+        btnSubmit.addEventListener('click', createAndAddBookToLibrary);
+
+        function createAndAddBookToLibrary(){
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const pages = document.getElementById('pages').value;
+            const read = document.getElementById('read').checked;
+            addBookToLibrary(title, author, pages, read);
+        }
+        
         function removeBook(e){
             myLibrary.splice(e.target.getAttribute(dataAttributes.bookIndex),1);
             updateDisplay();
@@ -109,6 +116,4 @@
         function addBookToLibrary(title, author, pages, read){
             myLibrary.push(new Book(title, author, pages, read));
             updateDisplay();
-        }
-
-        
+        }        

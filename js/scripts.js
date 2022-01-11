@@ -7,12 +7,14 @@
         Book.prototype.info = function(){
             return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read ? 'read' : 'not read yet'}`           
         }        
+        Book.prototype.toggleRead = function(){
+            this.read = !this.read;
+        }
         
         let myLibrary = [];
         const dataAttributes = {
             bookIndex: 'data-index',
         };
-
 
         const wrapper = document.querySelector('.wrapper');
         const btnNewBook = document.querySelector('button.add');
@@ -57,32 +59,49 @@
         }
         
         function displayBook(book, bookIndex){
-            console.log(book.info());
+
             const card = document.createElement('div')
             card.classList.add('card');
+
+            const elements = [];
             const title = document.createElement('h4');
             title.textContent = book.title
             title.classList.add('card','title');
+            elements.push(title);
+
             const author = document.createElement('h5');
             author.textContent = book.author;
             author.classList.add('card', 'author');
+            elements.push(author);
+
             const pages = document.createElement('p');
             pages.textContent = `Pages: ${book.pages}`;
             pages.classList.add('card','pages');
-            const read = document.createElement('p');
-            read.textContent = `Read: ${book.read ? 'Yes' : 'Not Yet'}`;
+            elements.push(pages);
+
+            const read = document.createElement('span');
+            read.textContent = `Read`;
+            read.style.marginRight = '8px';
             read.classList.add('card', 'read');
+            elements.push(read);
+
+            const btnTglRead = document.createElement('input');
+            btnTglRead.setAttribute('type', 'checkbox');
+            book.read ? btnTglRead.setAttribute('checked', book.read) : null;
+            btnTglRead.addEventListener('click',e => book.toggleRead());
+            elements.push(btnTglRead);
+
             const btnRemove = document.createElement('button');
             btnRemove.textContent = 'Delete Book';
             btnRemove.classList.add('card', 'btn', 'secondary');
             btnRemove.setAttribute(dataAttributes.bookIndex, bookIndex);
             btnRemove.addEventListener('click', removeBook);
+            elements.push(btnRemove);
+            
             // add elements to card
-            card.appendChild(title);
-            card.appendChild(author);
-            card.appendChild(pages);
-            card.appendChild(read);
-            card.appendChild(btnRemove);
+            for (let element of elements){
+                card.appendChild(element);
+            }
             // add card to wrapper
             wrapper.appendChild(card);
         }

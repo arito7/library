@@ -13,6 +13,13 @@
         }
     }    
 
+    class HorrorBook extends Book {
+        constructor(title, author, pages, read, test){
+            super(title, author, pages, read);
+            this.test = test;
+        }
+    }
+
     class Library{
         constructor(){
             this.books = [];

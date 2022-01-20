@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-undef */
 const Book = (title, author, pages, read) => {
   const info = () =>
     `${title} by ${author}, ${pages} pages, ${read ? 'read' : 'not read yet'}`;
@@ -17,21 +16,26 @@ const Library = () => {
   const CSS = {
     container: 'library-container',
     title: 'card-title',
+    author: 'card-author',
+    pages: 'card-pages',
+    read: 'card-read',
+    btn: 'card-button',
+    ckbox: 'card-checkbox',
   };
   const container = document.createElement('div');
   container.classList.add(CSS.container);
 
   // FUNCTION
-  function _addBookToLibrary(book) {
+  function addBookToLibrary(book) {
     library.push(book);
-    render();
+    renderBook(library[library.length - 1], library.length - 1);
   }
 
   function createAndAddBookToLibrary(title, author, page, read) {
-    _addBookToLibrary(Book(title, author, page, read));
+    addBookToLibrary(Book(title, author, page, read));
   }
 
-  function _renderBook(book, bookIndex) {
+  function renderBook(book, bookIndex) {
     // CREATE DOM ELEMENTS
     const card = document.createElement('div');
     const title = document.createElement('h4');
@@ -44,16 +48,17 @@ const Library = () => {
     // ADD CLASSES
     card.classList.add('card');
     title.classList.add(CSS.title);
-    author.classList.add('card', 'author');
-    pages.classList.add('card', 'pages');
-    read.classList.add('card', 'read');
-    btnRemove.classList.add('card', 'btn', 'secondary');
+    author.classList.add(CSS.author);
+    pages.classList.add(CSS.pages);
+    read.classList.add(CSS.read);
+    btnTglRead.classList.add(CSS.ckbox);
+    btnRemove.classList.add(CSS.btn);
 
     title.textContent = book.title;
     author.textContent = book.author;
     pages.textContent = `Pages: ${book.pages}`;
     read.textContent = 'Read';
-    btnRemove.textContent = 'Delete Book';
+    btnRemove.textContent = 'Remove Book';
     read.style.marginRight = '8px';
 
     btnTglRead.setAttribute('type', 'checkbox');
@@ -62,7 +67,10 @@ const Library = () => {
     }
     btnRemove.setAttribute(DATA_ATTRIBUTES.bookIndex, bookIndex);
     btnTglRead.addEventListener('click', () => book.toggleRead());
-    btnRemove.addEventListener('click', removeBook);
+    btnRemove.addEventListener('click', (e) => {
+      removeBook(e);
+      container.removeChild(card);
+    });
 
     card.appendChild(title);
     card.appendChild(author);
@@ -82,13 +90,12 @@ const Library = () => {
   function render() {
     clearContainer();
     for (let i = 0; i < library.length; i += 1) {
-      _renderBook(library[i], i);
+      renderBook(library[i], i);
     }
   }
 
   function removeBook(e) {
     library.splice(e.target.getAttribute(DATA_ATTRIBUTES.bookIndex), 1);
-    render();
   }
 
   return { container, createAndAddBookToLibrary, render };
@@ -100,7 +107,6 @@ const Library = () => {
   const btnNewBook = document.querySelector('button.add');
   const btnSubmit = document.getElementById('btn-submit');
   const form = document.querySelector('form');
-  const formData = new FormData(form);
   const library = Library();
 
   // SAMPLE DATA
@@ -109,15 +115,22 @@ const Library = () => {
   library.createAndAddBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, false);
 
   btnNewBook.addEventListener('click', () => {
-    form.style.display = form.style.display === 'none' ? 'grid' : 'none';
+    form.classList.toggle('visible');
   });
 
   btnSubmit.addEventListener('click', () => {
-    const title = formData.get('title');
-    const author = formData.get('author');
-    const pages = formData.get('pages');
-    const read = formData.get('read');
-    library.createAndAddBookToLibrary(title, author, pages, read);
+    if (form.checkValidity()) {
+      const formData = new FormData(form);
+      const title = formData.get('title');
+      const author = formData.get('author');
+      const pages = formData.get('pages');
+      const read = formData.get('read') === 'on';
+      library.createAndAddBookToLibrary(title, author, pages, read);
+      const childNodes = form.querySelectorAll('input');
+      childNodes.forEach((e) => {
+        e.value = '';
+      });
+    }
   });
 
   // FUNCTIONS

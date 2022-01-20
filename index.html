@@ -6,18 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./js/scripts.js" defer></script>
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/library.css">
     <title>Library</title>
 </head>
 <body>
-    <button class="add">Add New Book</button>
+    <header>
+        <h1>My Library</h1>
+        <button class="add">Add New Book</button>
+    </header>
     <form>
-        <div><input autofocus required id="title" type='text' name="title" minlength="3" maxlength="30" placeholder="Title"></div>
-        <div><input required id="author" type="text" name="author" minlength="3" maxlength="20" placeholder="Author"></div>
-        <div><label for="pages">Pages</label><input required id="pages" type="number" min="1" name="pages"></div>
+        <div><input class="book-field" autofocus required id="title" type='text' name="title" minlength="3" maxlength="30" placeholder="Title"></div>
+        <div><input class="book-field" required id="author" type="text" name="author" minlength="3" maxlength="20" placeholder="Author"></div>
+        <div><input class="book-field" required id="pages" type="number" min="1" name="pages" placeholder="#  of Pages"></div>
         <div>
-            <label for='read'>Have you read this book?</label><input type="checkbox" name="read" id="read">
+            <label for='read'>Have you read this book?</label><input class="ckbox" type="checkbox" name="read" id="read">
         </div>
-        <div><button id="btn-submit" type="button">Add</button></div>
+        <div><button class="form-btn" id="btn-submit" type="button">Add</button></div>
     </form>
     <div class="wrapper"></div>
 </body>

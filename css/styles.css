@@ -7,60 +7,71 @@
 * onSurface: #fffff
 **/
 
+html,
 body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background-color: #121212;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #fefefe;
 }
 
 form {
-    background-color: antiquewhite;
-    border-radius: 16px;
-    padding: 32px;
-    display: none;
-    gap: 16px;
-    margin: 16px auto;
-    max-width: 500px;
-    justify-items: center;
-    align-items: center;
+  background-color: #fbfbfb;
+  border-radius: 16px;
+  padding: 32px;
+  display: none;
+  gap: 16px;
+  margin: 16px auto;
+  max-width: 500px;
+  justify-items: center;
+  align-items: center;
 }
 
 form label {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 
-div.wrapper {
-    margin: 32px auto;
-    max-width: 960px;
-    display: grid;
-    gap: 8px;
-    grid-template-columns: repeat(3, 1fr);
+.wrapper {
+  margin: 32px auto;
+  max-width: 900px;
 }
 
 button.add,
 .btn.secondary {
-    background-color: #bb86fc;
-    border: none;
-    border-radius: 8px;
-    color: #000;
-    display: block;
-    font-family: inherit;
-    margin: 32px auto;
-    padding: 16px 32px;
+  background-color: #bb86fc;
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  display: block;
+  font-family: inherit;
+  margin: 32px auto;
+  padding: 16px 32px;
 }
 
 .btn.secondary {
-    background-color: #03dac6;
-    margin: 8px auto;
-    padding: 8px 16px;
+  background-color: #03dac6;
+  margin: 8px auto;
+  padding: 8px 16px;
 }
 
-.wrapper > .card {
-    color: #fff;
-    background-color: #212121;
-    border-radius: 8px;
-    padding: 16px 32px;
+.library-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  gap: 8px;
+  padding: 8px;
 }
 
-.card > .title {
-    font-size: 1.3em;
+.card {
+  color: #fefefe;
+  display: grid;
+  background-color: #454545;
+  border-radius: 8px;
+  padding: 16px 32px;
+}
+
+.card-title {
+  font-size: 1.3em;
 }
